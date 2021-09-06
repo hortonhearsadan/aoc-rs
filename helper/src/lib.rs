@@ -1,13 +1,22 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use std::str::FromStr;
 
 pub fn get_input(filename: &str) -> Vec<String> {
     let reader = get_reader(filename);
     reader.lines().map(|l| l.unwrap()).collect()
 }
 
+pub fn get_input_as_structs<T: FromStr>(filename: &str, _object: T) -> Vec<T> {
+    let reader = get_reader(filename);
+    reader
+        .lines()
+        .map(|l| T::from_str(l.unwrap().as_str()).ok().unwrap())
+        .collect()
+}
+
 pub fn get_reader(filename: &str) -> BufReader<File> {
-    let file = File::open(format!("input/{}", filename)).expect("file not found");
+    let file = File::open(format!("input/{}.txt", filename)).expect("file not found");
     BufReader::new(file)
 }
 
@@ -19,10 +28,10 @@ pub fn get_input_as_int(filename: &str) -> Vec<i32> {
 }
 
 pub fn print_part_1<T: std::fmt::Display>(result: T) {
-    print!("\nPart 1: {}\n", result)
+    println!("Part 1: {}", result)
 }
 pub fn print_part_2<T: std::fmt::Display>(result: T) {
-    print!("\nPart 2: {}\n", result)
+    println!("Part 2: {}", result)
 }
 
 #[cfg(test)]
