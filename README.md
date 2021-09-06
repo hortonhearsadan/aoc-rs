@@ -1,3 +1,3 @@
 # aoc-rs
 
-Advetn of Code challengees in rust
+Advetn of Code challenges in rust
