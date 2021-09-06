@@ -1,10 +1,17 @@
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Read};
 use std::str::FromStr;
 
 pub fn get_input(filename: &str) -> Vec<String> {
     let reader = get_reader(filename);
     reader.lines().map(|l| l.unwrap()).collect()
+}
+
+pub fn get_raw_input(filename: &str) -> String {
+    let mut file = File::open(format!("input/{}.txt", filename)).expect("file not found");
+    let mut contents = String::new();
+    file.read_to_string(&mut contents).unwrap();
+    contents
 }
 
 pub fn get_input_as_structs<T: FromStr>(filename: &str, _object: T) -> Vec<T> {
