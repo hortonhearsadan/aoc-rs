@@ -180,7 +180,6 @@ byr:1937 iyr:2017 cid:147 hgt:183cm";
         assert_eq!(p.raw_hcl, Some("#fffffd".to_owned()));
         assert_eq!(p.raw_byr, Some("1937".to_owned()));
         assert_eq!(p.raw_iyr, Some("2017".to_owned()));
-        assert_eq!(p.raw_cid, Some("147".to_owned()));
         assert_eq!(p.raw_hgt, Some("183cm".to_owned()));
     }
 
