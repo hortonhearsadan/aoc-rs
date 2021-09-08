@@ -1,10 +1,10 @@
 extern crate helper;
-use helper::{get_input_as_structs, print_part_1, print_part_2};
+use helper::{print_part_1, print_part_2, FromInput};
 use std::str::FromStr;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 struct PasswordPolicy {
     min: u32,
     max: u32,
@@ -47,7 +47,7 @@ impl PasswordPolicy {
 }
 
 fn main() {
-    let passwords: Vec<PasswordPolicy> = get_input_as_structs(FILENAME, PasswordPolicy::default());
+    let passwords: Vec<PasswordPolicy> = PasswordPolicy::from_input(FILENAME);
     let count = passwords.iter().filter(|p| (*p).is_valid()).count();
     print_part_1(count);
     let count = passwords.iter().filter(|p| (*p).is_really_valid()).count();

@@ -1,5 +1,5 @@
 extern crate helper;
-use helper::{get_raw_input, print_part_1, print_part_2};
+use helper::{print_part_1, print_part_2, FromInput};
 use std::str::FromStr;
 
 const VALID_ECL: [&str; 7] = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
@@ -135,12 +135,7 @@ fn valid_year(year_string: &str, min: i32, max: i32) -> bool {
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 fn main() {
-    let input = get_raw_input(FILENAME);
-    let blobs = input.split("\n\n").collect::<Vec<_>>();
-    let passports: Vec<Passport> = blobs
-        .iter()
-        .map(|b| Passport::from_str(*b).unwrap())
-        .collect();
+    let passports = Passport::from_multiline_input(FILENAME);
 
     let count = passports.iter().filter(|p| p.is_valid()).count();
     print_part_1(count);

@@ -2,6 +2,30 @@ use std::fs::File;
 use std::io::{BufRead, BufReader, Read};
 use std::str::FromStr;
 
+pub trait FromInput<T> {
+    fn from_input(filename: &str) -> Vec<T>;
+    fn from_multiline_input(filename: &str) -> Vec<T>;
+}
+
+impl<T: FromStr> FromInput<T> for T {
+    fn from_input(filename: &str) -> Vec<T> {
+        let reader = get_reader(filename);
+        reader
+            .lines()
+            .map(|l| T::from_str(l.unwrap().as_str()).ok().unwrap())
+            .collect()
+    }
+
+    fn from_multiline_input(filename: &str) -> Vec<T> {
+        let input = get_raw_input(filename);
+        let blobs = input.split("\n\n").collect::<Vec<_>>();
+        blobs
+            .iter()
+            .map(|b| T::from_str(*b).ok().unwrap())
+            .collect()
+    }
+}
+
 pub fn get_input(filename: &str) -> Vec<String> {
     let reader = get_reader(filename);
     reader.lines().map(|l| l.unwrap()).collect()
@@ -12,14 +36,6 @@ pub fn get_raw_input(filename: &str) -> String {
     let mut contents = String::new();
     file.read_to_string(&mut contents).unwrap();
     contents
-}
-
-pub fn get_input_as_structs<T: FromStr>(filename: &str, _object: T) -> Vec<T> {
-    let reader = get_reader(filename);
-    reader
-        .lines()
-        .map(|l| T::from_str(l.unwrap().as_str()).ok().unwrap())
-        .collect()
 }
 
 pub fn get_reader(filename: &str) -> BufReader<File> {
