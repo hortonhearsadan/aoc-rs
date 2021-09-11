@@ -50,6 +50,13 @@ pub fn get_input_as_int(filename: &str) -> Vec<i32> {
         .collect()
 }
 
+pub fn get_input_as_int64(filename: &str) -> Vec<i64> {
+    get_reader(filename)
+        .lines()
+        .map(|i| i.unwrap().parse::<i64>().unwrap())
+        .collect()
+}
+
 pub fn print_part_1<T: std::fmt::Display>(result: T) {
     println!("Part 1: {}", result)
 }
