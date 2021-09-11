@@ -14,7 +14,7 @@ impl FromStr for Group {
         Ok(Self { answers })
     }
 }
-fn main() {
+pub fn main() {
     let groups = Group::from_multiline_input(FILENAME);
     let count = groups
         .iter()

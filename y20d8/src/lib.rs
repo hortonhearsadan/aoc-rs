@@ -47,7 +47,7 @@ enum Instruction {
     Acc,
 }
 
-fn main() {
+pub fn main() {
     let mut ops = Op::from_input(FILENAME);
     let state = run_game(&ops);
     let acc = match state {

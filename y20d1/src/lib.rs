@@ -4,7 +4,7 @@ use helper::{get_input_as_int, print_part_1, print_part_2};
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 const TARGET: i32 = 2020;
 
-fn main() {
+pub fn main() {
     let input: Vec<i32> = get_input_as_int(FILENAME);
     for i in &input {
         let j = TARGET - i;

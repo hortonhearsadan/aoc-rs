@@ -46,7 +46,7 @@ impl PasswordPolicy {
     }
 }
 
-fn main() {
+pub fn main() {
     let passwords: Vec<PasswordPolicy> = PasswordPolicy::from_input(FILENAME);
     let count = passwords.iter().filter(|p| (*p).is_valid()).count();
     print_part_1(count);

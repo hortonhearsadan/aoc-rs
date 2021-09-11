@@ -2,7 +2,7 @@ use helper::{get_input_as_int, print_part_1, print_part_2};
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 
-fn main() {
+pub fn main() {
     let mut adapters = get_input_as_int(FILENAME);
     let max = adapters.iter().max().unwrap() + 3;
     adapters.push(0);

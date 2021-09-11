@@ -134,7 +134,7 @@ fn valid_year(year_string: &str, min: i32, max: i32) -> bool {
 }
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
-fn main() {
+pub fn main() {
     let passports = Passport::from_multiline_input(FILENAME);
 
     let count = passports.iter().filter(|p| p.is_valid()).count();

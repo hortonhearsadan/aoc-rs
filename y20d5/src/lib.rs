@@ -3,7 +3,7 @@ use helper::{get_input, print_part_1, print_part_2};
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 
-fn main() {
+pub fn main() {
     let seats = get_input(FILENAME);
     let seat_ids = seats.iter().map(|s| get_id(&*s));
     print_part_1(seat_ids.max().unwrap());

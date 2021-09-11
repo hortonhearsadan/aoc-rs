@@ -5,7 +5,7 @@ use std::iter::FromIterator;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 
-fn main() {
+pub fn main() {
     let nums = get_input_as_int64(FILENAME);
     let a = go_1(&nums, 25);
     let b = go_2(&nums, a);

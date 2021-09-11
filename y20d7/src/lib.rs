@@ -43,7 +43,7 @@
 //     }
 // }
 //
-fn main() {
+pub fn main() {
     //     let bags = BagContain::from_input(FILENAME);
     //     let mut vertices = vec![];
     //     let mut graph: Graph<usize> = Graph::new();

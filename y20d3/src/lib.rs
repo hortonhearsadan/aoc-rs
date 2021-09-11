@@ -4,7 +4,7 @@ use helper::{get_input, print_part_1, print_part_2};
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 const TREE: &str = "#";
 
-fn main() {
+pub fn main() {
     let grid = get_input(FILENAME);
     let length = grid[0].len();
     let height = grid.len();
