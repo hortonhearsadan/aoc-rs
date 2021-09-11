@@ -1,12 +1,14 @@
 use helper::{get_input_as_int64, print_part_1, print_part_2};
 use std::cmp::Ordering;
 use std::collections::VecDeque;
+use std::iter::FromIterator;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 
 fn main() {
     let nums = get_input_as_int64(FILENAME);
-    let (a, b) = go(nums, 25);
+    let a = go_1(&nums, 25);
+    let b = go_2(&nums, a);
     print_part_1(a);
     print_part_2(b);
 }
@@ -21,7 +23,7 @@ fn assess(n: i64, preamble: &VecDeque<i64>) -> bool {
     false
 }
 
-fn go(nums: Vec<i64>, preamble_num: usize) -> (i64, i64) {
+fn go_1(nums: &[i64], preamble_num: usize) -> i64 {
     let (pre, new_nums) = nums.split_at(preamble_num);
     let mut numbers: VecDeque<i64> = VecDeque::from(new_nums.to_owned());
     let mut preamble: VecDeque<i64> = VecDeque::from(pre.to_owned());
@@ -37,9 +39,12 @@ fn go(nums: Vec<i64>, preamble_num: usize) -> (i64, i64) {
             break;
         }
     }
+    invalid_num
+}
 
+fn go_2(nums: &[i64], invalid_num: i64) -> i64 {
     let mut contiguous_array = VecDeque::new();
-    let mut deque_nums = VecDeque::from(nums);
+    let mut deque_nums = VecDeque::from_iter(nums);
 
     let mut total = 0;
     let weakness: i64;
@@ -52,13 +57,13 @@ fn go(nums: Vec<i64>, preamble_num: usize) -> (i64, i64) {
                 contiguous_array.push_front(n);
             }
             Ordering::Equal => {
-                weakness =
-                    contiguous_array.iter().min().unwrap() + contiguous_array.iter().max().unwrap();
+                weakness = *contiguous_array.iter().min().unwrap()
+                    + *contiguous_array.iter().max().unwrap();
                 break;
             }
         }
     }
-    (invalid_num, weakness)
+    weakness
 }
 
 #[cfg(test)]
