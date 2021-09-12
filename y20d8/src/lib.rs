@@ -84,18 +84,18 @@ pub fn main() {
 
 fn run_game(ops: &[Op]) -> State {
     let mut acc = 0;
-    let mut index = 0;
+    let mut index: i32 = 0;
     let len = ops.len();
     let mut indices = Vec::with_capacity(len);
     loop {
-        let current_op = &ops[index];
+        let current_op = &ops[index as usize];
         let operation = &current_op.op;
         match operation {
             Acc => {
                 acc += current_op.num;
                 index += 1;
             }
-            Jmp => index += current_op.num as usize,
+            Jmp => index += current_op.num,
             Nop => index += 1,
         }
         if indices.contains(&index) {
@@ -103,7 +103,7 @@ fn run_game(ops: &[Op]) -> State {
         } else {
             indices.push(index);
         }
-        if index >= len {
+        if index as usize >= len {
             return State::Finite(acc);
         }
     }

@@ -1,18 +1,15 @@
 use std::time::Instant;
-use y20d1;
-use y20d10;
-use y20d2;
-use y20d3;
-use y20d4;
-use y20d5;
-use y20d6;
-use y20d7;
-use y20d8;
-use y20d9;
 
 fn main() {
     let start_0 = Instant::now();
 
+    run_libs();
+
+    let stop = start_0.elapsed().as_micros() as f64 / 1000.0;
+    println!("Total Duration: {:.3}ms", stop);
+}
+
+fn run_libs() {
     println!("DAY 1");
     let start = Instant::now();
     y20d1::main();
@@ -73,6 +70,15 @@ fn main() {
     let t = start.elapsed().as_micros() as f64 / 1000.0;
     println!("Duration: {:.3}ms", t);
 
-    let stop = start_0.elapsed().as_micros() as f64 / 1000.0;
-    println!("Total Duration: {:.3}ms", stop);
+    println!("DAY 11");
+    let start = Instant::now();
+    y20d11::main();
+    let t = start.elapsed().as_micros() as f64 / 1000.0;
+    println!("Duration: {:.3}ms", t);
+
+    println!("DAY 12");
+    let start = Instant::now();
+    y20d12::main();
+    let t = start.elapsed().as_micros() as f64 / 1000.0;
+    println!("Duration: {:.3}ms", t);
 }

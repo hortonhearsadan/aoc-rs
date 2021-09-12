@@ -68,7 +68,7 @@ fn go_2(nums: &[i64], invalid_num: i64) -> i64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::go;
+    use crate::{go_1, go_2};
 
     #[test]
     fn test_go() {
@@ -76,7 +76,8 @@ mod tests {
             35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309,
             576,
         ];
-        let (a, b) = go(nums, 5);
+        let a = go_1(&nums, 5);
+        let b = go_2(&nums, a);
         assert_eq!(a, 127);
         assert_eq!(b, 62)
     }

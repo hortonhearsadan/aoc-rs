@@ -8,7 +8,7 @@ pub fn main() {
     let seat_ids = seats.iter().map(|s| get_id(&*s));
     print_part_1(seat_ids.max().unwrap());
 
-    let seat_ids = seats.iter().map(|s| get_id(&*s)).collect::<Vec<_>>();
+    let seat_ids: Vec<i32> = seats.iter().map(|s| get_id(&*s)).collect::<Vec<_>>();
     let max_id = get_id("BBBBBBBRRR");
     let my_id = (0..max_id)
         .into_iter()
@@ -19,21 +19,21 @@ pub fn main() {
     print_part_2(my_id)
 }
 
-fn get_id(seat_string: &str) -> u32 {
+fn get_id(seat_string: &str) -> i32 {
     let (row, column) = seat_string.split_at(7);
     let row_num = get_row(row);
     let col_num = get_column(column);
     row_num * 8 + col_num
 }
 
-fn get_row(row: &str) -> u32 {
+fn get_row(row: &str) -> i32 {
     let row_bin = row.replace('F', "0").replace('B', "1");
-    u32::from_str_radix(&*row_bin, 2).unwrap()
+    i32::from_str_radix(&*row_bin, 2).unwrap()
 }
 
-fn get_column(row: &str) -> u32 {
+fn get_column(row: &str) -> i32 {
     let col_bin = row.replace('L', "0").replace('R', "1");
-    u32::from_str_radix(&*col_bin, 2).unwrap()
+    i32::from_str_radix(&*col_bin, 2).unwrap()
 }
 
 #[cfg(test)]
