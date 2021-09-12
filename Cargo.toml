@@ -14,4 +14,8 @@ members = [
     "y20d10",
     "y20d11",
     "y20d12",
+    "y20d13",
 ]
+
+[profile.release]
+debug = true

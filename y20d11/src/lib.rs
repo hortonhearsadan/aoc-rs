@@ -67,31 +67,21 @@ fn apply_changes(changes: &[(usize, usize, char)], seats: &mut Vec<Vec<char>>) {
 }
 
 fn adjacent_seats(row: i32, seat: i32, plan: &[Vec<char>]) -> i32 {
-    let row_max = plan.len() as i32;
-    let seat_max = plan[0].len() as i32;
-
     NEIGHBOURS
         .iter()
-        .filter(|(n, m)| is_occupied(row, row_max, seat, seat_max, *n, *m, plan))
+        .filter(|(n, m)| is_occupied(row, seat, *n, *m, plan))
         .count() as i32
 }
 
-fn is_occupied(
-    row: i32,
-    row_max: i32,
-    seat: i32,
-    seat_max: i32,
-    n: i32,
-    m: i32,
-    plan: &[Vec<char>],
-) -> bool {
+fn is_occupied(row: i32, seat: i32, n: i32, m: i32, plan: &[Vec<char>]) -> bool {
     let n_row = row + n;
     let n_col = seat + m;
-    if (n_row < 0) | (n_col < 0) | (n_row >= row_max) | (n_col >= seat_max) {
-        false
-    } else {
-        plan[n_row as usize][n_col as usize] == OCCUPIED
+    if let Some(r) = plan.get(n_row as usize) {
+        if let Some(c) = r.get(n_col as usize) {
+            return *c == OCCUPIED;
+        }
     }
+    false
 }
 
 #[cfg(test)]

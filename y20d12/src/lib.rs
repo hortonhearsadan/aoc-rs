@@ -86,7 +86,7 @@ fn travel(instructions: &[Instruction]) -> Complex<i32> {
 #[cfg(test)]
 mod tests {
     use crate::Direction::{Forward, North, Right};
-    use crate::{travel, turn, Instruction};
+    use crate::{travel, Instruction};
     use num::Complex;
 
     #[test]
