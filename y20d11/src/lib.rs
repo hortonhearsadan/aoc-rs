@@ -18,13 +18,13 @@ const EMPTY: char = 'L';
 
 pub fn main() {
     let seats = get_input(FILENAME);
-    let count = occupy_1(&seats);
+    let count = occupy(&seats, adjacent_seats_1, 4);
     print_part_1(count);
-    let count = occupy_2(&seats);
+    let count = occupy(&seats, adjacent_seats_2, 5);
     print_part_2(count);
 }
 
-fn occupy_1(seats: &[String]) -> usize {
+fn occupy(seats: &[String], adjacency_fn: fn(i32, i32, &[Vec<char>]) -> i32, limit: i32) -> usize {
     let mut seating_plan: Vec<_> = seats
         .iter()
         .map(|s| s.chars().collect::<Vec<char>>())
@@ -36,51 +36,12 @@ fn occupy_1(seats: &[String]) -> usize {
             for (j, seat) in row.iter().enumerate() {
                 match *seat {
                     EMPTY => {
-                        if adjacent_seats_1(i as i32, j as i32, &seating_plan) == 0 {
+                        if adjacency_fn(i as i32, j as i32, &seating_plan) == 0 {
                             changes.push((i, j, OCCUPIED))
                         }
                     }
                     OCCUPIED => {
-                        if adjacent_seats_1(i as i32, j as i32, &seating_plan) >= 4 {
-                            changes.push((i, j, EMPTY))
-                        }
-                    }
-                    _ => (),
-                };
-            }
-        }
-        if changes.is_empty() {
-            break;
-        } else {
-            apply_changes(&changes, &mut seating_plan);
-            changes.clear();
-        }
-    }
-
-    seating_plan
-        .into_iter()
-        .flatten()
-        .filter(|j| *j == OCCUPIED)
-        .count()
-}
-fn occupy_2(seats: &[String]) -> usize {
-    let mut seating_plan: Vec<_> = seats
-        .iter()
-        .map(|s| s.chars().collect::<Vec<char>>())
-        .collect::<Vec<Vec<char>>>();
-    let max_changes = seating_plan.len() * seating_plan[0].len();
-    let mut changes: Vec<(usize, usize, char)> = Vec::with_capacity(max_changes);
-    loop {
-        for (i, row) in seating_plan.iter().enumerate() {
-            for (j, seat) in row.iter().enumerate() {
-                match *seat {
-                    EMPTY => {
-                        if adjacent_seats_2(i as i32, j as i32, &seating_plan) == 0 {
-                            changes.push((i, j, OCCUPIED))
-                        }
-                    }
-                    OCCUPIED => {
-                        if adjacent_seats_2(i as i32, j as i32, &seating_plan) >= 5 {
+                        if adjacency_fn(i as i32, j as i32, &seating_plan) >= limit {
                             changes.push((i, j, EMPTY))
                         }
                     }
@@ -119,7 +80,6 @@ fn adjacent_seats_2(row: i32, seat: i32, plan: &[Vec<char>]) -> i32 {
         .iter()
         .filter(|(r, s)| is_occupied_2(row, seat, *r, *s, plan))
         .count() as i32
-
 }
 
 fn is_occupied_2(row: i32, seat: i32, n: i32, m: i32, plan: &[Vec<char>]) -> bool {
