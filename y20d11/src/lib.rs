@@ -29,8 +29,7 @@ fn occupy(seats: &[String], adjacency_fn: fn(i32, i32, &[Vec<char>]) -> i32, lim
         .iter()
         .map(|s| s.chars().collect::<Vec<char>>())
         .collect::<Vec<Vec<char>>>();
-    let max_changes = seating_plan.len() * seating_plan[0].len();
-    let mut changes: Vec<(usize, usize, char)> = Vec::with_capacity(max_changes);
+    let mut changes: Vec<(usize, usize, char)> = Vec::with_capacity(seating_plan.len() * seating_plan[0].len());
     loop {
         for (i, row) in seating_plan.iter().enumerate() {
             for (j, seat) in row.iter().enumerate() {
