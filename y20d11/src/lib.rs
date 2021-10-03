@@ -120,25 +120,6 @@ fn adjacent_seats_2(row: i32, seat: i32, plan: &[Vec<char>]) -> i32 {
         .filter(|(r, s)| is_occupied_2(row, seat, *r, *s, plan))
         .count() as i32
 
-    // let mut count = 0;
-    // for (x,y) in NEIGHBOURS.iter() {
-    //     let mut new_row = row;
-    //     let mut new_seat = seat;
-    //     loop {
-    //         new_row +=x;
-    //         new_seat +=y;
-    //
-    //         if let Some(state) = get_state(new_row as usize, new_seat as usize,plan) {
-    //             match state {
-    //                 OCCUPIED => {count+=1;break},
-    //                 EMPTY => break,
-    //                 _ => continue
-    //
-    //             }
-    //         } else {break}
-    //     }
-    // }
-    // count
 }
 
 fn is_occupied_2(row: i32, seat: i32, n: i32, m: i32, plan: &[Vec<char>]) -> bool {
