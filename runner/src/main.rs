@@ -87,4 +87,10 @@ fn run_libs() {
     y20d13::main();
     let t = start.elapsed().as_micros() as f64 / 1000.0;
     println!("Duration: {:.3}ms", t);
+
+    println!("DAY 15");
+    let start = Instant::now();
+    y20d15::main();
+    let t = start.elapsed().as_micros() as f64 / 1000.0;
+    println!("Duration: {:.3}ms", t);
 }

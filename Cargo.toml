@@ -15,6 +15,7 @@ members = [
     "y20d11",
     "y20d12",
     "y20d13",
+    "y20d15",
 ]
 
 [profile.release]
