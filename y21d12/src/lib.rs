@@ -2,7 +2,7 @@ use helper::{print_part_1, print_part_2};
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 
-fn main() {
+pub fn main() {
 
 }
 
