@@ -10,153 +10,43 @@ fn main() {
 }
 
 fn run_libs() {
-    println!("DAY 1");
-    let start = Instant::now();
-    y21d1::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
+    let fns = [
+        y21d1::main,
+        y21d2::main,
+        y21d3::main,
+        y21d4::main,
+        y21d5::main,
+        y21d6::main,
+        y21d7::main,
+        y21d8::main,
+        y21d9::main,
+        y21d10::main,
+        y21d11::main,
+        y21d12::main,
+        y21d13::main,
+        y21d14::main,
+        y21d15::main,
+        y21d16::main,
+        y21d17::main,
+        y21d18::main,
+        y21d19::main,
+        y21d20::main,
+        y21d21::main,
+        y21d22::main,
+        y21d23::main,
+        y21d24::main,
+        y21d25::main
+    ];
 
-    println!("DAY 2");
-    let start = Instant::now();
-    y21d2::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
+    for (i,f) in fns.iter().enumerate() {
+        run_lib(f,i+1)
+    }
+}
 
-    println!("DAY 3");
+fn run_lib(f: impl Fn(), i: usize) {
+    println!("DAY {}", i);
     let start = Instant::now();
-    y21d3::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 4");
-    let start = Instant::now();
-    y21d4::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 5");
-    let start = Instant::now();
-    y21d5::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 6");
-    let start = Instant::now();
-    y21d6::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 7");
-    let start = Instant::now();
-    y21d7::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 8");
-    let start = Instant::now();
-    y21d8::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 9");
-    let start = Instant::now();
-    y21d9::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 10");
-    let start = Instant::now();
-    y21d10::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 11");
-    let start = Instant::now();
-    y21d11::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 12");
-    let start = Instant::now();
-    y21d12::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 13");
-    let start = Instant::now();
-    y21d13::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 14");
-    let start = Instant::now();
-    y21d13::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 15");
-    let start = Instant::now();
-    y21d15::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 16");
-    let start = Instant::now();
-    y21d16::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 17");
-    let start = Instant::now();
-    y21d17::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 18");
-    let start = Instant::now();
-    y21d18::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 19");
-    let start = Instant::now();
-    y21d19::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 20");
-    let start = Instant::now();
-    y21d20::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 21");
-    let start = Instant::now();
-    y21d21::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 22");
-    let start = Instant::now();
-    y21d22::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 23");
-    let start = Instant::now();
-    y21d23::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 24");
-    let start = Instant::now();
-    y21d24::main();
-    let t = start.elapsed().as_micros() as f64 / 1000.0;
-    println!("Duration: {:.3}ms", t);
-
-    println!("DAY 25");
-    let start = Instant::now();
-    y21d25::main();
+    f();
     let t = start.elapsed().as_micros() as f64 / 1000.0;
     println!("Duration: {:.3}ms", t);
 }
