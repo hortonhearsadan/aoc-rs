@@ -12,8 +12,6 @@ pub fn main() {
     let count_1 = count_increases(&inputs, 1);
     let count_2 = count_increases(&inputs, 3);
 
-    // let (count_1,count_2) = count_increases_3(&inputs);
-
     print_part_1(count_1);
     print_part_2(count_2);
 }
