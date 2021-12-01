@@ -81,22 +81,22 @@ impl Passport {
     }
 
     fn byr_is_valid(&self) -> bool {
-        valid_year(&self.raw_byr.as_ref().unwrap(), 1920, 2002)
+        valid_year(self.raw_byr.as_ref().unwrap(), 1920, 2002)
     }
 
     fn iyr_is_valid(&self) -> bool {
-        valid_year(&self.raw_iyr.as_ref().unwrap(), 2010, 2020)
+        valid_year(self.raw_iyr.as_ref().unwrap(), 2010, 2020)
     }
 
     fn eyr_is_valid(&self) -> bool {
-        valid_year(&self.raw_eyr.as_ref().unwrap(), 2020, 2030)
+        valid_year(self.raw_eyr.as_ref().unwrap(), 2020, 2030)
     }
 
     fn hgt_is_valid(&self) -> bool {
         let len = self.raw_hgt.as_ref().unwrap().len();
         let (num, unit) = &self.raw_hgt.as_ref().unwrap().split_at(len - 2);
         if let Ok(number) = num.parse::<u32>() {
-            return VALID_HGT_UNIT.contains(&unit)
+            return VALID_HGT_UNIT.contains(unit)
                 && match *unit {
                     "cm" => (150..=193).contains(&number),
                     "in" => (59..=76).contains(&number),

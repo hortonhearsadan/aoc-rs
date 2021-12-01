@@ -13,7 +13,7 @@ pub fn main() {
     let my_id = (0..max_id)
         .into_iter()
         .find(|id| {
-            !seat_ids.contains(&id) && seat_ids.contains(&(id - 1)) && seat_ids.contains(&(id + 1))
+            !seat_ids.contains(id) && seat_ids.contains(&(id - 1)) && seat_ids.contains(&(id + 1))
         })
         .unwrap();
     print_part_2(my_id)
