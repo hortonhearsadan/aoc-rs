@@ -13,7 +13,7 @@ pub fn main() {
     let count_2 = count_increases(&inputs, 3);
 
     print_part_1(count_1);
-    print_part_1(count_2);
+    print_part_2(count_2);
 }
 
 fn count_increases(depths: &[i32], step: usize) -> usize {
