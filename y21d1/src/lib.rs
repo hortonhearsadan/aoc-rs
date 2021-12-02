@@ -17,7 +17,7 @@ pub fn main() {
 }
 
 fn count_increases(depths: &[i32], step: usize) -> usize {
-    depths.windows(step + 1).filter(|w| w[0] < w[step]).count()
+    depths.windows(step + 1).filter(|w| w.first() < w.last()).count()
 }
 
 #[cfg(test)]
