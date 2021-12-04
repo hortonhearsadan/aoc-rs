@@ -37,7 +37,7 @@ impl FromStr for Board {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let b: Vec<Vec<i32>> = s
             .split('\n')
-            .filter(|n| n.len() > 1)
+            .filter(|n| !n.is_empty())
             .map(|r| {
                 r.split_whitespace()
                     .map(|n| n.parse::<i32>().unwrap())
