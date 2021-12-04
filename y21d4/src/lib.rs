@@ -63,6 +63,7 @@ impl Board {
     fn is_solved(&self) -> bool {
         self.is_any_row_solved() || self.is_any_column_solved()
     }
+
     fn is_any_row_solved(&self) -> bool {
         (0..self.tiles.len()).any(|row| self.is_row_solved(row))
     }
@@ -89,7 +90,6 @@ impl Board {
 }
 
 pub fn main() {
-
     let (numbers, mut boards) = parse_input();
 
     print_part_1(part_1(&numbers, &mut boards).unwrap_or(-999));
@@ -109,7 +109,7 @@ fn parse_input() -> (Vec<i32>, Vec<Board>) {
 
     let boards = Board::from_multiline(input.1);
 
-    (numbers,boards)
+    (numbers, boards)
 }
 
 fn part_1(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
