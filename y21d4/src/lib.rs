@@ -29,6 +29,7 @@ const TEST: &str = "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8
 #[derive(Debug, Clone)]
 struct Board {
     pub tiles: Vec<Vec<i32>>,
+    pub solved: bool,
 }
 
 impl FromStr for Board {
@@ -44,7 +45,7 @@ impl FromStr for Board {
                     .collect::<Vec<i32>>()
             })
             .collect();
-        Ok(Board { tiles: b })
+        Ok(Board { tiles: b, solved: false })
     }
 }
 
@@ -54,6 +55,10 @@ impl Board {
             for (j, &c) in r.iter().enumerate() {
                 if c == x {
                     self.tiles[i][j] = MARK;
+
+                    if self.is_row_solved( i) || self.is_column_solved(j)  {
+                        self.solved = true
+                    }
                     break 'outer;
                 }
             }
@@ -61,7 +66,8 @@ impl Board {
     }
 
     fn is_solved(&self) -> bool {
-        self.is_any_row_solved() || self.is_any_column_solved()
+        self.solved
+        // self.is_any_row_solved() || self.is_any_column_solved()
     }
 
     fn is_any_row_solved(&self) -> bool {
