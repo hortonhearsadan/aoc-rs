@@ -2,7 +2,6 @@
 #![allow(unused_imports)]
 use helper::{get_input, get_raw_input, print_part_1, print_part_2, FromInput};
 use std::str::FromStr;
-use std::time::Instant;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 const MARK: i32 = -1;
