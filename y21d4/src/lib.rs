@@ -61,18 +61,22 @@ impl Board {
     }
 
     fn is_solved(&self) -> bool {
-        for r in self.tiles.iter() {
-            if r.iter().all(|&n| n == MARK) {
-                return true
-            }
-        }
+        self.is_any_row_solved() | self.is_any_column_solved()
+    }
+    fn is_any_row_solved(&self) ->bool  {
+        (0..self.tiles.len()).any(|row| self.is_row_solved(row))
+    }
 
-        for i in 0..self.tiles[0].len() {
-            if self.tiles.iter().all(|r| r[i] == MARK) {
-                return true
-            }
-        }
-        false
+    fn is_any_column_solved(&self) ->bool  {
+        (0..self.tiles[0].len()).any(|col| self.is_column_solved(col))
+    }
+
+    fn is_column_solved(&self, col: usize) -> bool {
+        self.tiles.iter().all(|r| r[col] == MARK)
+    }
+
+    fn is_row_solved(&self, row: usize) -> bool {
+        self.tiles[row].iter().all(|&n| n == MARK)
     }
 
     fn score(&self, multiplier: i32) -> i32 {
