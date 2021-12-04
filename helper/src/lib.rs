@@ -19,11 +19,7 @@ impl<T: FromStr> FromInput<T> for T {
 
     fn from_multiline_input(filename: &str) -> Vec<T> {
         let input = get_raw_input(filename);
-        let blobs = input.split("\n\n").collect::<Vec<_>>();
-        blobs
-            .iter()
-            .map(|b| T::from_str(*b).ok().unwrap())
-            .collect()
+        T::from_multiline(&input)
     }
 
     fn from_multiline(input: &str) -> Vec<T> {
