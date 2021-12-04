@@ -54,7 +54,7 @@ impl Board {
             for (j, &c) in r.iter().enumerate() {
                 if c == x {
                     self.tiles[i][j] = MARK;
-                    break 'outer
+                    break 'outer;
                 }
             }
         }
@@ -63,11 +63,11 @@ impl Board {
     fn is_solved(&self) -> bool {
         self.is_any_row_solved() | self.is_any_column_solved()
     }
-    fn is_any_row_solved(&self) ->bool  {
+    fn is_any_row_solved(&self) -> bool {
         (0..self.tiles.len()).any(|row| self.is_row_solved(row))
     }
 
-    fn is_any_column_solved(&self) ->bool  {
+    fn is_any_column_solved(&self) -> bool {
         (0..self.tiles[0].len()).any(|col| self.is_column_solved(col))
     }
 
@@ -110,7 +110,7 @@ fn part_1(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
         for b in boards.iter_mut() {
             b.mark(*n);
             if b.is_solved() {
-                return Some(b.score(*n))
+                return Some(b.score(*n));
             }
         }
     }
@@ -123,17 +123,17 @@ fn part_2(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
     for n in numbers.iter() {
         for (i, b) in boards.iter_mut().enumerate() {
             if solved_boards.contains(&i) {
-                continue
+                continue;
             }
 
             b.mark(*n);
 
             if !b.is_solved() {
-                continue
+                continue;
             }
 
             if solved_boards.len() == l - 1 {
-                return Some(b.score(*n))
+                return Some(b.score(*n));
             }
             solved_boards.push(i);
         }
