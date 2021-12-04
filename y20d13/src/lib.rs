@@ -60,14 +60,14 @@ fn mod_pow(mut base: i64, mut exp: i64, modulus: i64) -> i64 {
     result
 }
 
-#[cfg(test)]
-mod tests {
-    use crate::find_earliest_bus;
-
-    #[test]
-    fn it_works_13() {
-        let t = 939;
-        let v = vec![7, 13, 59, 31, 19];
-        assert_eq!(find_earliest_bus(t, &v), (59, 5));
-    }
-}
+// #[cfg(test)]
+// mod tests {
+//     use crate::find_earliest_bus;
+//
+//     #[test]
+//     fn it_works_13() {
+//         let t = 939;
+//         let v = vec![7, 13, 59, 31, 19];
+//         assert_eq!(find_earliest_bus(t, &v), (59, 5));
+//     }
+// }

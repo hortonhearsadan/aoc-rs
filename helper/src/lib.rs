@@ -5,6 +5,7 @@ use std::str::FromStr;
 pub trait FromInput<T> {
     fn from_input(filename: &str) -> Vec<T>;
     fn from_multiline_input(filename: &str) -> Vec<T>;
+    fn from_multiline(input: &str) -> Vec<T>;
 }
 
 impl<T: FromStr> FromInput<T> for T {
@@ -23,6 +24,14 @@ impl<T: FromStr> FromInput<T> for T {
             .iter()
             .map(|b| T::from_str(*b).ok().unwrap())
             .collect()
+    }
+
+    fn from_multiline(input: &str) -> Vec<T> {
+        let blobs = input.split("\n\n").collect::<Vec<_>>();
+        blobs
+            .iter()
+            .map(|b| T::from_str(*b).ok().unwrap())
+            .collect::<Vec<T>>()
     }
 }
 
