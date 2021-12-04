@@ -51,8 +51,8 @@ impl FromStr for Board {
 impl Board {
     fn mark(&mut self, x: i32) {
         'outer: for (i, r) in self.tiles.iter().enumerate() {
-            for (j, c) in r.iter().enumerate() {
-                if *c == x {
+            for (j, &c) in r.iter().enumerate() {
+                if c == x {
                     self.tiles[i][j] = MARK;
                     break 'outer;
                 }
