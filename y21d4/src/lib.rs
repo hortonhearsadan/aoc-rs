@@ -61,16 +61,14 @@ impl Board {
     }
 
     fn is_solved(&self) -> bool {
-        let l = self.tiles[0].len() as i32;
         for r in self.tiles.iter() {
-            if r.iter().sum::<i32>() == MARK * l {
+            if r.iter().all(|&n| n == MARK) {
                 return true;
             }
         }
 
         for i in 0..self.tiles[0].len() {
-            let s: i32 = self.tiles.iter().map(|r| r[i]).sum();
-            if s == MARK * l {
+            if self.tiles.iter().all(|r| r[i] == MARK) {
                 return true;
             }
         }
@@ -78,12 +76,11 @@ impl Board {
     }
 
     fn score(&self, multiplier: i32) -> i32 {
-        let s: i32 = self
-            .tiles
+        self.tiles
             .iter()
             .map(|r| r.iter().filter(|c| **c != MARK).sum::<i32>())
-            .sum();
-        s * multiplier
+            .sum::<i32>()
+            * multiplier
     }
 }
 
@@ -101,7 +98,7 @@ pub fn main() {
 
     print_part_1(part_1(&numbers, &mut boards).unwrap_or(-999));
 
-    print_part_2(part_2(&numbers, &mut boards).unwrap_or(-999));
+    print_part_2(part_2(&numbers, &mut boards).unwrap_or(-999))
 }
 
 fn part_1(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
@@ -109,7 +106,7 @@ fn part_1(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
         for b in boards.iter_mut() {
             b.mark(*n);
             if b.is_solved() {
-                return Some(b.score(*n));
+                return Some(b.score(*n))
             }
         }
     }
@@ -122,17 +119,17 @@ fn part_2(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
     for n in numbers.iter() {
         for (i, b) in boards.iter_mut().enumerate() {
             if solved_boards.contains(&i) {
-                continue;
+                continue
             }
 
             b.mark(*n);
 
             if !b.is_solved() {
-                continue;
+                continue
             }
 
             if solved_boards.len() == l - 1 {
-                return Some(b.score(*n));
+                return Some(b.score(*n))
             }
             solved_boards.push(i);
         }
