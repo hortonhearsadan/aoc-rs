@@ -2,6 +2,7 @@
 #![allow(unused_imports)]
 use helper::{get_input, get_raw_input, print_part_1, print_part_2, FromInput};
 use std::str::FromStr;
+use std::time::Instant;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 const MARK: i32 = -1;
@@ -61,7 +62,7 @@ impl Board {
     }
 
     fn is_solved(&self) -> bool {
-        self.is_any_row_solved() | self.is_any_column_solved()
+        self.is_any_row_solved() || self.is_any_column_solved()
     }
     fn is_any_row_solved(&self) -> bool {
         (0..self.tiles.len()).any(|row| self.is_row_solved(row))
@@ -89,6 +90,15 @@ impl Board {
 }
 
 pub fn main() {
+
+    let (numbers, mut boards) = parse_input();
+
+    print_part_1(part_1(&numbers, &mut boards).unwrap_or(-999));
+
+    print_part_2(part_2(&numbers, &mut boards).unwrap_or(-999))
+}
+
+fn parse_input() -> (Vec<i32>, Vec<Board>) {
     let input_str: String = get_raw_input(FILENAME);
     let input = input_str.split_once("\n\n").unwrap();
 
@@ -98,11 +108,9 @@ pub fn main() {
         .map(|s| s.parse::<i32>().unwrap())
         .collect();
 
-    let mut boards = Board::from_multiline(input.1);
+    let boards = Board::from_multiline(input.1);
 
-    print_part_1(part_1(&numbers, &mut boards).unwrap_or(-999));
-
-    print_part_2(part_2(&numbers, &mut boards).unwrap_or(-999))
+    (numbers,boards)
 }
 
 fn part_1(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
