@@ -54,7 +54,7 @@ impl Board {
             for (j, &c) in r.iter().enumerate() {
                 if c == x {
                     self.tiles[i][j] = MARK;
-                    break 'outer;
+                    break 'outer
                 }
             }
         }
@@ -63,13 +63,13 @@ impl Board {
     fn is_solved(&self) -> bool {
         for r in self.tiles.iter() {
             if r.iter().all(|&n| n == MARK) {
-                return true;
+                return true
             }
         }
 
         for i in 0..self.tiles[0].len() {
             if self.tiles.iter().all(|r| r[i] == MARK) {
-                return true;
+                return true
             }
         }
         false
