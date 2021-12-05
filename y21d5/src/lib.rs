@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 
 use helper::{print_part_1, print_part_2, FromInput};
-use ndarray::{s, Array2};
+use ndarray::{s, Array2, ArrayViewMut};
 use std::cmp::{max, min};
 use std::collections::hash_map::Entry::Vacant;
 use std::path::Prefix::Verbatim;
@@ -57,6 +57,17 @@ impl Vent {
         self.is_vertical() || self.is_horizontal()
     }
 
+    fn get_step(&self) -> i32 {
+        match self.is_inverted() {
+            true => -1,
+            false => 1,
+        }
+    }
+
+    fn is_inverted(&self) -> bool {
+        (self.x_1 < self.x_0) ^ (self.y_1 < self.y_0)
+    }
+
     fn is_vertical(&self) -> bool {
         self.y_0 == self.y_1
     }
@@ -83,14 +94,6 @@ impl Vent {
 
     fn min_y(&self) -> usize {
         min(self.y_0, self.y_1)
-    }
-
-    fn diff_x(&self) -> usize {
-        self.max_x() - self.min_x()
-    }
-
-    fn diff_y(&self) -> usize {
-        self.max_y() - self.min_y()
     }
 }
 
@@ -123,23 +126,15 @@ pub fn main() {
 }
 
 fn add_vent_to_matrix(m: &mut Array2<usize>, vent: &Vent) {
+    let step = vent.get_step();
+
+    let mut slice = m.slice_mut(s![vent.min_y()..=vent.max_y(), vent.min_x()..=vent.max_x();step]);
+
     if vent.is_vertical_or_horizontal() {
-        let mut s = m.slice_mut(s![vent.min_y()..=vent.max_y(), vent.min_x()..=vent.max_x()]);
-        s += 1
+        slice += 1
     } else {
-        let mut range_x: Vec<_> = (vent.min_x()..=vent.max_x()).collect();
-        if vent.x_1 < vent.x_0 {
-            range_x.reverse()
-        }
-
-        let mut range_y: Vec<_> = (vent.min_y()..=vent.max_y()).collect();
-        if vent.y_1 < vent.y_0 {
-            range_y.reverse()
-        }
-
-        for (x, y) in range_x.into_iter().zip(range_y) {
-            m[[y, x]] += 1
-        }
+        let mut diag = slice.diag_mut();
+        diag += 1
     }
 }
 
