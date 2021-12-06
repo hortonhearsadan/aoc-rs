@@ -1,8 +1,9 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
-use helper::{print_part_1, print_part_2, get_raw_input};
+use helper::{get_raw_input, print_part_1, print_part_2};
 use std::collections::{HashMap, VecDeque};
 use std::env::split_paths;
+use std::time::Instant;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
 const TEST: &str = "3,4,3,1,2";
@@ -24,20 +25,20 @@ struct FishMap {
 }
 
 impl FishMap {
-    fn new(fish : &Vec<u64>) -> Self{
+    fn new(fish: &[u64]) -> Self {
         let mut fm = Self::default();
         for f in fish.iter() {
             match *f {
-                0 => fm.zero +=1,
-                1 => fm.one +=1,
-                2 => fm.two +=1,
-                3 => fm.three +=1,
-                4 => fm.four +=1,
-                5 => fm.five +=1,
-                6 => fm.six +=1,
-                7 => fm.seven +=1,
-                8 => fm.eight +=1,
-                _ => panic!("bad num")
+                0 => fm.zero += 1,
+                1 => fm.one += 1,
+                2 => fm.two += 1,
+                3 => fm.three += 1,
+                4 => fm.four += 1,
+                5 => fm.five += 1,
+                6 => fm.six += 1,
+                7 => fm.seven += 1,
+                8 => fm.eight += 1,
+                _ => panic!("bad num"),
             }
         }
         fm
@@ -54,43 +55,75 @@ impl FishMap {
         self.six = self.seven;
         self.seven = self.eight;
         self.eight = breed;
-        self.six +=breed
+        self.six += breed
     }
-    fn count(&self) -> u64{
-        self.zero +self.one +self.two +self.three +self.four +self.five +self.six +self.seven +self.eight
+    fn count(&self) -> u64 {
+        self.zero
+            + self.one
+            + self.two
+            + self.three
+            + self.four
+            + self.five
+            + self.six
+            + self.seven
+            + self.eight
     }
-
 }
 
 pub fn main() {
     // let fish = TEST.split(",").map(| s| s.parse::<u64>().unwrap()).collect::<Vec<_>>();
     let fish_str = get_raw_input(FILENAME);
-    let fish = fish_str.split(",").map(| s| s.trim().parse::<u64>().unwrap()).collect::<Vec<_>>();
+    let fish = fish_str
+        .split(',')
+        .map(|s| s.trim().parse::<u64>().unwrap())
+        .collect::<Vec<_>>();
 
-    let f = count_fish_fun(&fish.clone(), 80);
-    print_part_1(f);
+    let start_0 = Instant::now();
 
-    let g = count_fish_fun(&fish.clone(), 256);
+    // let f = count_fish_fun(&fish, 80);
+    //
+    // let g = count_fish_fun(&fish, 256);
+
+    let (f, g) = count_fish_fun_bulk(&fish, 80, 256);
+
+    let stop = start_0.elapsed().as_nanos() as f64;
+
+    println!("Sub Duration: {:.3} nanoseconds", stop);
+
     print_part_2(g);
 
+    print_part_1(f);
 }
 
-fn count_fish_fun(fish: &Vec<u64>, days: u64) -> u64 {
+fn count_fish_fun(fish: &[u64], days: u64) -> u64 {
     let mut fish_map = FishMap::new(fish);
-    for d in 1..=days {
+    for _ in 1..=days {
         fish_map.age();
     }
     fish_map.count()
-
 }
 
-fn count_fish_simple(fish: &Vec<u64>, days: u64) -> u64 {
-    let mut c: VecDeque<u64> = VecDeque::from(vec![0;9]);
+fn count_fish_fun_bulk(fish: &[u64], days1: u64, days2: u64) -> (u64, u64) {
+    let mut fish_map = FishMap::new(fish);
+
+    (1..days1).for_each(|_| fish_map.age());
+
+    let f = fish_map.count();
+
+    (days1 + 1..days2).for_each(|_| fish_map.age());
+
+    let g = fish_map.count();
+
+    (f, g)
+}
+
+fn count_fish_simple(fish: &[u64], days: u64) -> u64 {
+    let mut c: VecDeque<u64> = VecDeque::from(vec![0; 9]);
     for f in fish.iter() {
-        c[*f as usize] +=1
+        c[*f as usize] += 1
     }
 
-    for d in 1..=days {
+    for _ in 1..=days {
         let b = c.pop_front().unwrap();
         c.push_back(b);
         c[6] += b
@@ -98,8 +131,8 @@ fn count_fish_simple(fish: &Vec<u64>, days: u64) -> u64 {
     c.iter().sum::<u64>()
 }
 
-fn count_fish_slow(fish: &Vec<u64>, days: u64) -> usize {
-    let mut c = fish.clone();
+fn count_fish_slow(fish: &[u64], days: u64) -> usize {
+    let mut c = fish.to_owned();
     let mut new = Vec::new();
 
     for d in 1..=days {
@@ -113,7 +146,7 @@ fn count_fish_slow(fish: &Vec<u64>, days: u64) -> usize {
         }
         c.extend(new.iter());
         new.clear();
-        println!("{} {} {:?}",d, c.len(), c)
+        println!("{} {} {:?}", d, c.len(), c)
     }
     c.len()
 }
