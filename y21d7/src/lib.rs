@@ -7,23 +7,29 @@ const TEST: &str = "16,1,2,0,4,2,7,1,2,14";
 
 pub fn main() {
     let s = get_raw_input(FILENAME);
-    let crabs: Vec<_> = s
+
+    let mut crabs: Vec<_> = s
         .split(',')
         .map(|c| c.trim().parse::<i32>().unwrap())
         .collect();
 
-    let min = crabs.iter().min().unwrap();
-    let max = crabs.iter().max().unwrap();
+    crabs.sort_unstable();
+    let m = crabs.len() / 2;
+    let median = crabs[m];
+    let mean: i32 = crabs.iter().sum::<i32>() / crabs.len() as i32;
+    let skew: i32 = if mean > median { 1 } else { -1 };
 
-    let c1 = (*min..=*max)
-        .into_iter()
-        .map(|x| cost_1(&crabs, x))
-        .min()
-        .unwrap();
+    let c1 = cost_1(&crabs, median);
 
-    let c2 = (*min..=*max)
-        .into_iter()
-        .map(|x| cost_2(&crabs, x))
+    let (start, stop) = if skew == 1 {
+        (m, crabs.len() - 1)
+    } else {
+        (0, m)
+    };
+
+    let c2 = crabs[start..=stop]
+        .iter()
+        .map(|&x| cost_2(&crabs, x))
         .min()
         .unwrap();
 
