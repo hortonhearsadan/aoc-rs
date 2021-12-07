@@ -20,8 +20,8 @@ pub fn main() {
 }
 
 fn part1(codes: &[Vec<u32>]) -> u32 {
-    let g = get_gamma_bin(&codes);
-    let e = get_epsilon_bin(&codes);
+    let g = get_gamma_bin(codes);
+    let e = get_epsilon_bin(codes);
 
     get_dec_from_bin(&g) * get_dec_from_bin(&e)
 }
