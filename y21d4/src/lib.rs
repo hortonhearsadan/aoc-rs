@@ -90,27 +90,27 @@ impl Board {
 }
 
 pub fn main() {
-    let (numbers, mut boards) = parse_input();
-
-    print_part_1(part_1(&numbers, &mut boards).unwrap_or(-999));
-
-    print_part_2(part_2(&numbers, &mut boards).unwrap_or(-999))
+    // let (numbers, mut boards) = parse_input();
+    //
+    // print_part_1(part_1(&numbers, &mut boards).unwrap_or(-999));
+    //
+    // print_part_2(part_2(&numbers, &mut boards).unwrap_or(-999))
 }
 
-fn parse_input() -> (Vec<i32>, Vec<Board>) {
-    let input_str: String = get_raw_input(FILENAME);
-    let input = input_str.split_once("\n\n").unwrap();
-
-    let numbers: Vec<_> = input
-        .0
-        .split(',')
-        .map(|s| s.parse::<i32>().unwrap())
-        .collect();
-
-    let boards = Board::from_multiline(input.1);
-
-    (numbers, boards)
-}
+// fn parse_input() -> (Vec<i32>, Vec<Board>) {
+//     // let input_str: String = get_raw_input(FILENAME);
+//     // let input = input_str.split_once("\n\n").unwrap();
+//     //
+//     // let numbers: Vec<_> = input
+//     //     .0
+//     //     .split(',')
+//     //     .map(|s| s.parse::<i32>().unwrap())
+//     //     .collect();
+//     //
+//     // let boards = Board::from_multiline(input.1);
+//     //
+//     // (numbers, boards)
+// }
 
 fn part_1(numbers: &[i32], boards: &mut Vec<Board>) -> Option<i32> {
     for n in numbers.iter() {

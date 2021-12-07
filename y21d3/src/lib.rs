@@ -16,7 +16,7 @@ pub fn main() {
 
     print_part_1(part1(&codes));
 
-    print_part_2(part2(&codes))
+    print_part_2(part2(&codes));
 }
 
 fn part1(codes: &[Vec<u32>]) -> u32 {
