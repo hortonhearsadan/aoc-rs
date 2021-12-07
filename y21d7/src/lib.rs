@@ -14,17 +14,14 @@ pub fn main() {
         .collect();
 
     crabs.sort_unstable();
-    let m = crabs.len() / 2;
-    let median = crabs[m];
-    let mean: i32 = crabs.iter().sum::<i32>() / crabs.len() as i32;
-    let skew: i32 = if mean > median { 1 } else { -1 };
+
+    let (mid, median, skew) = analyse_crabs(&crabs);
 
     let c1 = cost_1(&crabs, median);
 
-    let (start, stop) = if skew == 1 {
-        (m, crabs.len() - 1)
-    } else {
-        (0, m)
+    let (start, stop) = match skew {
+        1 => (mid, crabs.len() - 1),
+        _ => (0, mid),
     };
 
     let c2 = crabs[start..=stop]
@@ -43,6 +40,14 @@ fn cost_1(crabs: &[i32], pos: i32) -> i32 {
 
 fn cost_2(crabs: &[i32], pos: i32) -> i32 {
     crabs.iter().map(|&c| triangle_sum((c - pos).abs())).sum()
+}
+
+fn analyse_crabs(crabs: &[i32]) -> (usize, i32, i32) {
+    let m = crabs.len() / 2;
+    let median = crabs[m];
+    let mean: i32 = crabs.iter().sum::<i32>() / crabs.len() as i32;
+    let skew: i32 = if mean > median { 1 } else { -1 };
+    (m, median, skew)
 }
 
 fn triangle_sum(a: i32) -> i32 {
