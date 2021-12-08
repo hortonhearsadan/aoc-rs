@@ -270,12 +270,12 @@ pub fn main() {
     // let mut displays = SevenSegmentDisplay::from_strings(TEST);
     let mut displays = SevenSegmentDisplay::from_input(FILENAME);
     for d in displays.iter_mut() {
-        d.decode()
+        d.decode();
     }
 
     print_part_1(count_simples(&displays));
 
-    print_part_2(sum_outputs(&displays));
+    print_part_2(sum_outputs(&displays))
 }
 
 fn sum_outputs(displays: &[SevenSegmentDisplay]) -> u32 {
