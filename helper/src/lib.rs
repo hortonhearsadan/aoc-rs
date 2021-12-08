@@ -6,6 +6,7 @@ pub trait FromInput<T> {
     fn from_input(filename: &str) -> Vec<T>;
     fn from_multiline_input(filename: &str) -> Vec<T>;
     fn from_multiline(input: &str) -> Vec<T>;
+    fn from_strings(s: &str) -> Vec<T>;
 }
 
 impl<T: FromStr> FromInput<T> for T {
@@ -14,6 +15,12 @@ impl<T: FromStr> FromInput<T> for T {
         reader
             .lines()
             .map(|l| T::from_str(l.unwrap().as_str()).ok().unwrap())
+            .collect()
+    }
+
+    fn from_strings(s: &str) -> Vec<T> {
+        s.split('\n')
+            .map(|l| T::from_str(l).ok().unwrap())
             .collect()
     }
 
