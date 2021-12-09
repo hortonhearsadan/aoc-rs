@@ -23,36 +23,54 @@ pub fn main() {
                 .collect::<Vec<_>>()
         })
         .collect::<Vec<_>>();
+
+    let low_coords = part_1(&grid);
+
+    let basins = part_2(&grid, &low_coords);
+
+    print_part_1(
+        low_coords
+            .iter()
+            .map(|(i, j)| grid[*i][*j] + 1)
+            .sum::<i32>(),
+    );
+
+    print_part_2(basins[..3].iter().product::<usize>());
+}
+
+fn part_1(grid: &[Vec<i32>]) -> Vec<(usize, usize)> {
     let num_rows = grid.len();
     let num_cols = grid[0].len();
-    let mut lows = Vec::new();
+
     let mut low_coords = Vec::new();
+
     for i in 0..num_rows {
         for j in 0..num_cols {
             let point = grid[i][j];
-            let neighbours = get_neighbours(&grid, i, j);
+            let neighbours = get_neighbours(grid, i, j);
 
             if neighbours.iter().any(|n| *n <= point) {
                 continue;
             }
-            lows.push(point);
             low_coords.push((i, j))
         }
     }
+    low_coords
+}
 
-    let mut basins = Vec::new();
+fn part_2(grid: &[Vec<i32>], low_coords: &[(usize, usize)]) -> Vec<usize> {
+    let mut basins = Vec::with_capacity(low_coords.len());
 
     for (i, j) in low_coords.iter() {
         let point = grid[*i][*j];
-        let mut e = Vec::new();
-        let neighbours = get_recursive_higher_neighbours(&grid, *i, *j, point, &mut e);
-        basins.push(neighbours.len() + 1);
+        let mut neighbours = vec![(*i, *j)];
+        get_recursive_higher_neighbours(grid, *i, *j, point, &mut neighbours);
+        basins.push(neighbours.len() + 1)
     }
+
     basins.sort_unstable();
-
-    print_part_1(lows.iter().sum::<i32>() + lows.len() as i32);
-
-    print_part_2(basins[basins.len() - 3..].iter().product::<usize>())
+    basins.reverse();
+    basins
 }
 
 fn get_neighbours(grid: &[Vec<i32>], row: usize, col: usize) -> Vec<i32> {
@@ -74,9 +92,7 @@ fn get_recursive_higher_neighbours(
     col: usize,
     point: i32,
     existing_points: &mut Vec<(usize, usize)>,
-) -> Vec<i32> {
-    let mut neighbours = Vec::new();
-
+) {
     for (x, y) in POINTS {
         let r_c = (row as i32 + y) as usize;
         if let Some(r) = grid.get(r_c) {
@@ -87,20 +103,12 @@ fn get_recursive_higher_neighbours(
                         continue;
                     }
 
-                    neighbours.push(*c);
                     existing_points.push((r_c, c_c));
-                    neighbours.extend(get_recursive_higher_neighbours(
-                        grid,
-                        r_c,
-                        c_c,
-                        *c,
-                        existing_points,
-                    ));
+                    get_recursive_higher_neighbours(grid, r_c, c_c, *c, existing_points);
                 }
             }
         }
     }
-    neighbours
 }
 
 #[cfg(test)]
