@@ -65,7 +65,7 @@ fn part_2(grid: &[Vec<i32>], low_coords: &[(usize, usize)]) -> Vec<usize> {
         let point = grid[*i][*j];
         let mut neighbours = vec![(*i, *j)];
         get_recursive_higher_neighbours(grid, *i, *j, point, &mut neighbours);
-        basins.push(neighbours.len() + 1)
+        basins.push(neighbours.len())
     }
 
     basins.sort_unstable();
@@ -98,11 +98,7 @@ fn get_recursive_higher_neighbours(
         if let Some(r) = grid.get(r_c) {
             let c_c = (col as i32 + x) as usize;
             if let Some(c) = r.get(c_c) {
-                if c > &point && c != &9 {
-                    if existing_points.contains(&(r_c, c_c)) {
-                        continue;
-                    }
-
+                if c > &point && c != &9 && !existing_points.contains(&(r_c, c_c)) {
                     existing_points.push((r_c, c_c));
                     get_recursive_higher_neighbours(grid, r_c, c_c, *c, existing_points);
                 }
