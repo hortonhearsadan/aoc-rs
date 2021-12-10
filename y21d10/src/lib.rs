@@ -44,8 +44,11 @@ fn part1(linters: &[String]) -> (Vec<char>, Vec<VecDeque<char>>) {
         let mut openers = VecDeque::new();
         for c in l.chars() {
             if OPENERS.contains(&c) {
-                openers.push_back(c)
-            } else if CLOSERS.contains(&c) {
+                openers.push_back(c);
+                continue;
+            }
+
+            if CLOSERS.contains(&c) {
                 if is_corrupted(&openers, c) {
                     corrupt_lints.push(c);
                     continue 'outer;
