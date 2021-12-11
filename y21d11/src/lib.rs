@@ -23,39 +23,31 @@ const TEST1: &str = "11111
 11111";
 
 pub fn main() {
-    let s = get_input(FILENAME);
+    let s = get_raw_input(FILENAME);
     // let s = TEST.split('\n').collect::<Vec<_>>();
-    let t = s
-        .iter()
-        .map(|c| {
-            c.chars()
-                .map(|d| d.to_digit(10).unwrap())
-                .collect::<Vec<_>>()
-        })
-        .collect::<Vec<_>>()[..]
-        .concat();
+    let octos = s.chars().filter_map(|d| d.to_digit(10)).collect();
 
-    let mut grid: Array2<u32> = Array2::<u32>::from_shape_vec((s.len(), s[0].len()), t).unwrap();
+    let mut squid_grid: Array2<u32> = Array2::<u32>::from_shape_vec((10,10), octos).unwrap();
 
-    let (num_flashes, steps_ran_1) = run_steps(&mut grid, 100);
+    let (num_flashes, steps_ran_1) = run_steps(&mut squid_grid, 100);
 
     print_part_1(num_flashes);
 
-    let (_, steps_ran_2) = run_steps(&mut grid, 1000);
+    let (_, steps_ran_2) = run_steps(&mut squid_grid, 1000);
     print_part_2(steps_ran_1 + steps_ran_2)
 }
 
-fn run_steps(grid: &mut Array2<u32>, steps: u32) -> (usize, u32) {
+fn run_steps(squid_grid: &mut Array2<u32>, steps: u32) -> (usize, u32) {
     let mut total_flashes = 0;
     let mut ran = steps;
     for s in 1..=steps {
         let mut flashes = Vec::new();
-        let mut v: ArrayViewMut2<u32> = grid.view_mut();
+        let mut v: ArrayViewMut2<u32> = squid_grid.view_mut();
         v += 1;
         find_flashes(&mut v, &mut flashes);
 
         total_flashes += flashes.len();
-        if flashes.len() == grid.len() {
+        if flashes.len() == squid_grid.len() {
             ran = s;
             break;
         }
@@ -63,10 +55,10 @@ fn run_steps(grid: &mut Array2<u32>, steps: u32) -> (usize, u32) {
     (total_flashes, ran)
 }
 
-fn find_flashes(grid: &mut ArrayViewMut2<u32>, flashes: &mut Vec<(usize, usize)>) {
-    for y in 0..grid.nrows() {
-        for x in 0..grid.ncols() {
-            let s = grid[(y, x)];
+fn find_flashes(squid_grid: &mut ArrayViewMut2<u32>, flashes: &mut Vec<(usize, usize)>) {
+    for y in 0..squid_grid.nrows() {
+        for x in 0..squid_grid.ncols() {
+            let s = squid_grid[(y, x)];
             if s <= 9 {
                 continue;
             }
@@ -75,18 +67,18 @@ fn find_flashes(grid: &mut ArrayViewMut2<u32>, flashes: &mut Vec<(usize, usize)>
                 continue;
             }
 
-            let mut slice = grid.slice_mut(s![
+            let mut slice = squid_grid.slice_mut(s![
                 start(y as i32)..=stop(y as i32),
                 start(x as i32)..=stop(x as i32)
             ]);
             slice += 1;
             flashes.push((y, x));
-            find_flashes(grid, flashes)
+            find_flashes(squid_grid, flashes)
         }
     }
 
     for i in flashes.iter() {
-        grid[*i] = 0
+        squid_grid[*i] = 0
     }
 }
 
