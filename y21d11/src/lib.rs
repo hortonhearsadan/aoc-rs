@@ -27,7 +27,7 @@ pub fn main() {
     // let s = TEST.split('\n').collect::<Vec<_>>();
     let octos = s.chars().filter_map(|d| d.to_digit(10)).collect();
 
-    let mut squid_grid: Array2<u32> = Array2::<u32>::from_shape_vec((10,10), octos).unwrap();
+    let mut squid_grid: Array2<u32> = Array2::<u32>::from_shape_vec((10, 10), octos).unwrap();
 
     let (num_flashes, steps_ran_1) = run_steps(&mut squid_grid, 100);
 

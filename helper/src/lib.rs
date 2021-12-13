@@ -76,6 +76,10 @@ pub fn print_part_2<T: std::fmt::Display>(result: T) {
     println!("Part 2: {}", result)
 }
 
+pub fn debug<T: std::fmt::Debug>(p: T) {
+    println!("{:?}", p)
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
