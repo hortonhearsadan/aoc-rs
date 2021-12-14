@@ -36,7 +36,6 @@ pub fn main() {
     let a = get_raw_input(FILENAME);
     let s: Vec<_> = a.split_terminator('\n').collect();
     let polymer_template: Vec<u8> = [
-        vec![BUFFER],
         s[0].chars().map(find_idx).collect::<Vec<u8>>(),
         vec![BUFFER],
     ]
@@ -76,18 +75,13 @@ pub fn main() {
 
 fn count_diff(poly_map: &HashMap<(u8, u8), usize>) -> usize {
     let mut counts: HashMap<&u8, usize> = HashMap::new();
-    for ((k1, k2), v) in poly_map.iter() {
-        if *k1 != BUFFER {
-            *counts.entry(k1).or_insert(0) += v;
-        }
-        if *k2 != BUFFER {
-            *counts.entry(k2).or_insert(0) += v;
-        }
+    for ((k1, _), v) in poly_map.iter() {
+        *counts.entry(k1).or_insert(0) += v;
     }
 
     let max_1 = &counts.values().max().unwrap();
     let min_1 = &counts.values().min().unwrap();
-    (*max_1 - *min_1) / 2
+    *max_1 - *min_1
 }
 
 fn polymerise(polymap: &mut HashMap<(u8, u8), usize>, rule_map: &HashMap<(u8, u8), u8>) {
