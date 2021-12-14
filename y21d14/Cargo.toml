@@ -7,3 +7,4 @@ edition = "2018"
 
 [dependencies]
 helper = { path = "../helper" }
+itertools = "0.10.3"
