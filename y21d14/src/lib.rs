@@ -35,15 +35,11 @@ pub fn main() {
 
     let a = get_raw_input(FILENAME);
     let s: Vec<_> = a.split_terminator('\n').collect();
-    let polymer_template: Vec<u8> = [
-        s[0].chars().map(find_idx).collect::<Vec<u8>>(),
-        vec![BUFFER],
-    ]
-    .to_vec()
-    .concat();
+    let polymer_template: Vec<u8> = s[0].chars().map(find_idx).chain(std::iter::once(BUFFER)).collect::<Vec<u8>>();
+
     let rules: HashMap<(u8, u8), u8> = s[1..]
         .iter()
-        .filter_map(|l| l.split(" -> ").collect_tuple::<(&str, &str)>())
+        .filter_map(|l| l.split_once(" -> "))
         .map(|(lhs, rhs)| {
             let mut l = lhs.chars();
             (
