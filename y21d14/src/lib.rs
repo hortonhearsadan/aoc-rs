@@ -2,6 +2,7 @@
 #![allow(unused_imports)]
 use helper::{debug, get_raw_input, print_part_1, print_part_2};
 use itertools::Itertools;
+use std::collections::hash_map::RandomState;
 use std::collections::HashMap;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
@@ -41,7 +42,7 @@ pub fn main() {
     ]
     .to_vec()
     .concat();
-    let rules: HashMap<(u8, u8), u8> = s[2..]
+    let rules: HashMap<(u8, u8), u8> = s[1..]
         .iter()
         .filter_map(|l| l.split(" -> ").collect_tuple::<(&str, &str)>())
         .map(|(lhs, rhs)| {
@@ -54,31 +55,28 @@ pub fn main() {
         .collect();
     let mut rule_map: HashMap<_, _> = HashMap::new();
     for (k, v) in rules.iter() {
-        rule_map.insert((*k).to_owned(), (*v).to_owned());
+        rule_map.insert(*k, *v);
     }
-    // debug(&rule_map);
-    // debug(&polymer_template);
-    //
-    let poly_template_map: HashMap<(u8, u8), usize> =
+
+    let mut poly_map: HashMap<(u8, u8), usize> =
         polymer_template.into_iter().tuple_windows().counts();
-    // debug(&poly_template_map);
 
-    let polymer_map1 = (1..=10).fold(poly_template_map, |polymap, _s| {
-        polymerise(polymap, &rule_map)
-    });
-    // debug(&polymer_map1);
+    for _ in 1..=10 {
+        polymerise(&mut poly_map, &rule_map)
+    }
 
-    print_part_1(count_diff(&polymer_map1));
+    print_part_1(count_diff(&poly_map));
 
-    let polymer_map2 = (11..=40).fold(polymer_map1, |polymap, _s| polymerise(polymap, &rule_map));
+    for _ in 11..=40 {
+        polymerise(&mut poly_map, &rule_map)
+    }
 
-    print_part_2(count_diff(&polymer_map2));
+    print_part_2(count_diff(&poly_map));
 }
 
 fn count_diff(poly_map: &HashMap<(u8, u8), usize>) -> usize {
-    let p = poly_map.clone();
     let mut counts: HashMap<&u8, usize> = HashMap::new();
-    for ((k1, k2), v) in p.iter() {
+    for ((k1, k2), v) in poly_map.iter() {
         if *k1 != BUFFER {
             *counts.entry(k1).or_insert(0) += v;
         }
@@ -92,21 +90,15 @@ fn count_diff(poly_map: &HashMap<(u8, u8), usize>) -> usize {
     (*max_1 - *min_1) / 2
 }
 
-fn polymerise(
-    polymap: HashMap<(u8, u8), usize>,
-    rule_map: &HashMap<(u8, u8), u8>,
-) -> HashMap<(u8, u8), usize> {
-    let mut new_polymap = HashMap::new();
+fn polymerise(polymap: &mut HashMap<(u8, u8), usize>, rule_map: &HashMap<(u8, u8), u8>) {
 
-    for ((u, v), c) in polymap {
+    for ((u, v), c) in polymap.clone() {
         if let Some(&r) = rule_map.get(&(u, v)) {
-            *new_polymap.entry((u, r)).or_insert(0) += c;
-            *new_polymap.entry((r, v)).or_insert(0) += c;
-        } else {
-            *new_polymap.entry((u, v)).or_insert(0) += c;
+            *polymap.entry((u, r)).or_insert(0) += c;
+            *polymap.entry((r, v)).or_insert(0) += c;
+            *polymap.entry((u, v)).or_insert(0) -= c;
         }
     }
-    new_polymap
 }
 
 #[cfg(test)]
