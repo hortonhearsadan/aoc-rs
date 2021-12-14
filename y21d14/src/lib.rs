@@ -6,7 +6,6 @@ use std::collections::hash_map::RandomState;
 use std::collections::HashMap;
 
 const FILENAME: &str = env!("CARGO_PKG_NAME");
-const ALPHABET: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BUFFER: u8 = u8::MAX;
 const TEST: &str = "NNCB
 
@@ -28,11 +27,12 @@ CC -> N
 CN -> C";
 
 fn find_idx(c: char) -> u8 {
-    ALPHABET.find(c).unwrap() as u8
+    c as u8 - 65
 }
 
 pub fn main() {
     // let a = TEST;
+
     let a = get_raw_input(FILENAME);
     let s: Vec<_> = a.split_terminator('\n').collect();
     let polymer_template: Vec<u8> = [
